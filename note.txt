@@ -1,0 +1,5 @@
+1.strcpy()
+char* strcpy(char* destination, const char* source);
+从 source 的第一个字符开始，依次复制到 destination 指向的内存位置；
+每复制一个字符，destination 和 source 指针分别向后移动一位；
+当复制到 source 中的 \0 时，停止拷贝（\0 会被复制到 destination，作为新字符串的结束符）。
