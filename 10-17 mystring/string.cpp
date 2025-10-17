@@ -20,12 +20,12 @@ namespace mystring
     }
 
     // 只扩不缩
-    void string::reserve(int n)
+    void string::reserve(size_t n)
     {
         if (n > _capacity)
         {
             char *tmp = new char[n + 1];
-            strcmp(tmp, _str);
+            strcpy(tmp, _str);
             delete[] _str;
             _str = tmp;
             _capacity = n;
@@ -48,11 +48,11 @@ namespace mystring
 
     void string::append(const char *str)
     {
-        int len = strlen(str);
+        size_t len = strlen(str);
         if (_size + len > _capacity)
         {
             // reserve(_capacity == 0 ? 4 : 2*_capacity);  size + len 有可能大于2capacity
-            int newCapacity = 2 * _capacity;
+            size_t newCapacity = 2 * _capacity;
             if (_size + len > newCapacity)
             {
                 newCapacity = _size + len;
@@ -80,10 +80,58 @@ namespace mystring
     void string::insert(size_t pos, size_t n,char ch)
     {
         assert(pos <= _size);
+
+        // 检查空间容量
+        if(_size + n > _capacity)
+        {
+            size_t newCapacity = _capacity * 2;
+            if(_size + n > newCapacity)
+            {
+                newCapacity = _size + n;
+            }
+            reserve(newCapacity);
+        }
+
+        //插入
+        size_t end = _size;
+        while(end >= pos)
+        {
+            _str[end + n] = _str[end];
+            -- end;
+        }
+        for(int i = 0;i < n;i++)
+        {
+            _str[pos + i] = ch;
+        }
+
+        _size += n;
         
     }
 
-    void string::insert(size_t pos,const char* str);
-    void string::erase(size_t pos = 0,size_t len = npos);
+    void string::insert(size_t pos,const char* str)
+    {
+        assert(pos < _size);
+    }
 
+    //void string::erase(size_t pos = 0,size_t len = npos)
+    //{
+
+    //}
+
+    void test_string()
+    {
+        string s1("hello world");
+        cout << s1.c_str()<<endl;
+        string s2;
+        cout<<s2.c_str()<<endl;
+        // s1+=' ';
+        // s1+='1';
+        // s1+="hello";
+        // cout << s1.c_str()<< endl;
+
+        // s1 += "hello bit1111111111111111111111111";
+        // cout << s1.c_str() << endl;
+        s1.insert(5,3,'a');
+        cout << s1.c_str()<<endl;
+    }
 }

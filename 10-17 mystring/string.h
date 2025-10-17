@@ -18,7 +18,7 @@ namespace mystring
             return _str;
         }
 
-        void reserve(int n);
+        void reserve(size_t n);
         void push_back(char ch);
         void append(const char* str);
 
@@ -27,13 +27,15 @@ namespace mystring
 
         void insert(size_t pos, size_t n,char ch);
         void insert(size_t pos,const char* str);
-        void erase(size_t pos = 0,size_t len = npos);
+        //void erase(size_t pos = 0,size_t len = npos);
 
     private:
         char *_str;    // 指向字符串实际存储的字符数组的指针
-        int _size;     // 有效字符个数
-        int _capacity; // 总容量
+        size_t _size;     // 有效字符个数
+        size_t _capacity; // 总容量
 
         const static size_t npos;
     };
+
+    void test_string();
 }
