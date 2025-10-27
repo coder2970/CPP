@@ -3,3 +3,12 @@ char* strcpy(char* destination, const char* source);
 从 source 的第一个字符开始，依次复制到 destination 指向的内存位置；
 每复制一个字符，destination 和 source 指针分别向后移动一位；
 当复制到 source 中的 \0 时，停止拷贝（\0 会被复制到 destination，作为新字符串的结束符）。
+
+2.strstr()
+char *strstr(const char *haystack, const char *needle);
+haystack：被查找的主字符串（源字符串）。
+needle：要查找的子字符串（目标字符串）。
+在 haystack 中查找 needle 首次出现的位置，不包含 needle 的终止符 '\0'。
+如果找到，返回指向 haystack 中 needle 首次出现的起始地址的指针。
+如果未找到，返回 NULL。
+特别地：若 needle 是空字符串（""），则返回 haystack 的起始地址（标准规定）。

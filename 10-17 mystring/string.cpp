@@ -2,7 +2,7 @@
 
 namespace mystring
 {
-    const static size_t npos = -1;
+    const size_t string::npos = -1;
 
     string::string(const char *str)
         : _size(strlen(str))
@@ -93,8 +93,9 @@ namespace mystring
         }
 
         //插入
-        size_t end = _size;
-        while(end >= pos)
+        // 如果使用size_t end 会出现问题
+        int end = _size;
+        while(end >= (int)pos)
         {
             _str[end + n] = _str[end];
             -- end;
@@ -110,20 +111,162 @@ namespace mystring
 
     void string::insert(size_t pos,const char* str)
     {
-        assert(pos < _size);
+        assert(pos <= _size);
+        // 用insert复写
+        size_t n = strlen(str);
+        insert(pos,n,'x');
+        for(size_t i = 0;i < n;i++)
+        {
+            _str[pos + i] = str[i];
+        }
     }
 
-    //void string::erase(size_t pos = 0,size_t len = npos)
-    //{
+    void string::erase(size_t pos,size_t len)
+    {
+        assert(pos <= _size);
+        // 删完了
+        if(len >= _size - pos)
+        {
+            _str[pos] = '\0';
+            _size = pos;
+        }
+        else
+        {
+            size_t end = pos + len;
+            while(end <= _size)
+            {
+                _str[end - len] = _str[end];
+                end ++;
+            }
+            _size -= len;
+        }
+    }
+    
+    //字符查找
+    size_t string::find(char ch,size_t pos)
+    {
+        for(size_t i = 0;i < _size;i++)
+        {
+            if(_str[i] == ch)
+            {
+                return i;
+            }
+        }
+        return npos;
+    }
 
-    //}
+    //字符串查找
+    size_t string::find(const char* str,size_t pos)
+    {
+        const char* p = strstr(_str,str);
+        if(p == nullptr)
+        {
+            return npos;
+        }
+        else 
+        {
+            return p - _str;
+        }
+    }
+
+    string string::substr(size_t pos,size_t len)
+    {
+        size_t leftlen = _size - pos;
+        if(leftlen < len)
+        {
+            len = leftlen;
+        }
+
+        string tmp;
+        tmp.reserve(len);
+        for(size_t i = 0;i < len;i++)
+        {
+            tmp += _str[pos + i];
+        }
+
+        return tmp;
+    }
+
+    bool string::operator==(const string& s) const
+    {
+        return strcmp(s._str,_str) == 0;
+    }
+    bool string::operator!=(const string& s) const
+    {
+        return !(*this == s);
+    }
+    bool string::operator>(const string& s) const
+    {
+        return strcmp(_str,s._str) > 0;
+    }
+    bool string::operator>=(const string& s) const
+    {
+        return (*this > s || *this == s);
+    }
+    bool string::operator<(const string& s) const
+    {
+        return !(*this >= s);
+    }
+    bool string::operator<=(const string& s) const
+    {
+        return *this < s || *this == s;
+    }
+
+    ostream& operator<<(ostream& out,const string& s)
+    {
+        for(const auto& e : s)
+        {
+            out<< e;
+        }
+        return out;
+    }
+    istream& operator>>(istream& in,string& s)
+    {
+        s.clear();
+
+        const size_t N = 1024;
+        char buffer[N];
+        int i = 0;
+        char ch = in.get();
+        while(ch != ' ' && ch != '\n')
+        {
+            buffer[i++] = ch;
+            if(i == N -1)
+            {
+                buffer[i] = '\0';
+                s += buffer;
+                i = 0;
+            }
+            ch = in.get();
+        }
+
+        if(i > 0)
+        {
+            buffer[i] = '\0';
+            s += buffer;
+        }
+
+        return in;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     void test_string()
     {
         string s1("hello world");
-        cout << s1.c_str()<<endl;
-        string s2;
-        cout<<s2.c_str()<<endl;
+        cout << s1.c_str() <<endl;
+        // string s2;
+        // cout<<s2.c_str()<<endl;
         // s1+=' ';
         // s1+='1';
         // s1+="hello";
@@ -131,7 +274,22 @@ namespace mystring
 
         // s1 += "hello bit1111111111111111111111111";
         // cout << s1.c_str() << endl;
-        s1.insert(5,3,'a');
-        cout << s1.c_str()<<endl;
+        // s1.insert(0,3,'a');
+        // cout << s1.c_str()<<endl;
+
+        // const char* str = "abcdefg";
+        // s1.insert(4,"str");
+        // cout << s1.c_str() << endl;
+        // s1.erase(6,2);
+
+        // size_t n = s1.find('e');
+        // cout<<n<<endl;
+
+        // cout<< s1.size() <<'-'<< s1.capacity() <<endl;
+        // string s2 = s1.substr(6,33);
+        // cout << s2.c_str() << endl;
+        string s2 = "hello world";
+        cin>>s2;
+        cout << s2 << endl;
     }
 }
