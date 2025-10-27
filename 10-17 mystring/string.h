@@ -33,7 +33,7 @@ namespace mystring
             return _str + _size;
         }
 
-        string(const char* ="");
+        string(const char* str ="");
         ~string();
         void clear()
         {
