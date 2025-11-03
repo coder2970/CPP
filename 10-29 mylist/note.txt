@@ -1,0 +1,7 @@
+1.typedef也受到访问限定符修饰，typedef list_iterator<T> iterator定义为私有，test时报错，应设为public
+
+2.operator->()的重载 示例test_mylist2()
+it->_a1 等价于 it.operator->()->_a1
+调用it.operator->()，得到A*类型的指针（指向_node->_data）。
+用这个指针通过->_a1访问A的成员，等价于(*it)._a1（但更简洁）。
+

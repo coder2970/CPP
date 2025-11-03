@@ -3,6 +3,7 @@
         "xstring": "cpp",
         "iostream": "cpp",
         "iterator": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "initializer_list": "cpp"
     }
 }
