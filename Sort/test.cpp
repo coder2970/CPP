@@ -55,6 +55,29 @@ void mergeSort(vector<int> &nums, int left, int right)
         nums[k] = tmp[k - left];
 }
 
+// 直接插入排序
+void insertSort(vector<int> &nums)
+{
+    for (int i = 0; i < nums.size() - 1; i++)
+    {
+        int end = i;             // 1.定界：将数组分为前部的有序区和后部的无序区 有序：[0,end] 无序：[end + 1, n]
+        int key = nums[end + 1]; // 2.取牌
+
+        while (end >= 0) // 3.挪位：在有序区中从后向前扫描，将比“抓到的牌”大的元素统统向后移动。
+        {
+            if (key < nums[end])
+            {
+                nums[end + 1] = nums[end];
+                end--;
+            }
+            else
+            {
+                break;
+            }
+        }
+        nums[end + 1] = key; // 4.落座：将暂存的元素放入最终找到的空位中
+    }
+}
 int main()
 {
     srand(time(NULL));
@@ -65,7 +88,8 @@ int main()
     cout << endl;
 
     // quickSort(nums, 0, n - 1);
-    mergeSort(nums, 0, n - 1);
+    // mergeSort(nums, 0, n - 1);
+    insertSort(nums);
 
     for (auto e : nums)
         cout << e << " ";
