@@ -2,11 +2,11 @@
 #include <iostream>
 #include <cstdlib>
 #include <cassert>
-template<class T>
-class Heap /*½¨Ğ¡¶Ñ*/
+template <class T>
+class Heap /*å»ºå°å †*/
 {
 private:
-	T* _arr;
+	T *_arr;
 	int _size;
 	int _capacity;
 
@@ -49,6 +49,7 @@ private:
 			}
 		}
 	}
+
 public:
 	Heap() : _arr(nullptr), _size(0), _capacity(0)
 	{
@@ -60,7 +61,7 @@ public:
 		_size = _capacity = 0;
 	}
 
-	Heap(const Heap& hp)
+	Heap(const Heap &hp)
 	{
 		_size = hp._size;
 		_capacity = hp._capacity;
@@ -79,7 +80,7 @@ public:
 		}
 	}
 
-	Heap& operator=(const Heap& hp)
+	Heap &operator=(const Heap &hp)
 	{
 		if (this != &hp)
 		{
@@ -106,7 +107,7 @@ public:
 	{
 		if (n > _capacity)
 		{
-			T* newarr = new T[n];
+			T *newarr = new T[n];
 			for (int i = 0; i < _size; i++)
 			{
 				newarr[i] = _arr[i];
@@ -117,15 +118,15 @@ public:
 			_capacity = n;
 		}
 	}
-	
-	void Push(const T& x)
+
+	void Push(const T &x)
 	{
 		if (_size >= _capacity)
 		{
 			reserve(_capacity == 0 ? 4 : 2 * _capacity);
 		}
 		_arr[_size++] = x;
-		// ÏòÉÏµ÷Õû
+		// å‘ä¸Šè°ƒæ•´
 		AdjustUp(_size - 1);
 	}
 	void Pop()
@@ -144,6 +145,3 @@ public:
 		}
 	}
 };
-
-
-
