@@ -1,4 +1,5 @@
 #include <iostream>
+#include "topK.hpp"
 #include <vector>
 #include <time.h>
 #include <cstdlib>
@@ -78,9 +79,46 @@ void insertSort(vector<int> &nums)
         nums[end + 1] = key; // 4.落座：将暂存的元素放入最终找到的空位中
     }
 }
+void adjustDown(vector<int> &nums, int parent, int heapsize)
+{
+    int n = heapsize;
+    int child = parent * 2 + 1;
+    while (child < n)
+    {
+        if (child + 1 < n && nums[child] < nums[child + 1])
+            child = child + 1;
+        if (nums[parent] < nums[child])
+        {
+            std::swap(nums[parent], nums[child]);
+            parent = child;
+            child = parent * 2 + 1;
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+// 堆排序 升序 建大堆
+void HeapSort(vector<int> &nums)
+{
+    int n = nums.size();
+    for (int i = (n - 1 - 1) / 2; i >= 0; i--)
+    {
+        adjustDown(nums, i, n);
+    }
+    int end = n - 1;
+    while (end > 0)
+    {
+        std::swap(nums[end], nums[0]);
+        adjustDown(nums, 0, end);
+        end--;
+    }
+}
+
 int main()
 {
-    srand(time(NULL));
+    // srand(time(NULL));
     vector<int> nums = {10, 5, 2, 6, 1, 8, 7, 3, 9, 4};
     int n = nums.size();
     for (auto e : nums)
@@ -89,11 +127,15 @@ int main()
 
     // quickSort(nums, 0, n - 1);
     // mergeSort(nums, 0, n - 1);
-    insertSort(nums);
+    // insertSort(nums);
+    HeapSort(nums);
 
     for (auto e : nums)
         cout << e << " ";
     cout << endl;
+
+    // createData();
+    // TopK();
 
     return 0;
 }
