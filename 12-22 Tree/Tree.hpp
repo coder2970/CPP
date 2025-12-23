@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <queue>
 #include <windows.h>
 #include <cstdio>
 #include <assert.h>
@@ -161,6 +162,64 @@ public:
             return rightnode;
 
         return nullptr;
+    }
+
+    // 层序遍历
+    void LevelOrder()
+    {
+        _LevelOrder(_root);
+        std::cout << std::endl;
+    }
+    void _LevelOrder(Node *root)
+    {
+        std::queue<Node *> q;
+        q.push(root);
+        while (!q.empty())
+        {
+            // 1.取队头
+            Node *tmp = q.front();
+            q.pop();
+            // 2.将队头的左右孩子入队列
+            if (tmp->_left)
+                q.push(tmp->_left);
+            if (tmp->_right)
+                q.push(tmp->_right);
+
+            std::cout << tmp->_data << " ";
+        }
+    }
+
+    // 判断二叉树是否为完全二叉树
+    bool TreeIsComplete()
+    {
+        return _TreeIsComplete(_root);
+    }
+    bool _TreeIsComplete(Node *root)
+    {
+        std::queue<Node *> q;
+
+        q.push(root);
+        while (!q.empty())
+        {
+            // 1.出队列
+            Node *tmp1 = q.front();
+            q.pop();
+            // 2.为空跳出循环
+            if (tmp1 == nullptr)
+                break;
+            // 2.不为空, 将左右子节点入队列
+            q.push(tmp1->_left);
+            q.push(tmp1->_right);
+        }
+        // 此时队列不一定为空
+        while (!q.empty())
+        {
+            Node *tmp2 = q.front();
+            if (tmp2 != nullptr)
+                return false;
+            q.pop();
+        }
+        return true;
     }
 
 private:

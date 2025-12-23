@@ -13,8 +13,8 @@ TreeNode<char> *CreateTree()
 
     node2->_left = node4;
 
-    node3->_left = node5;
-    node3->_right = node6;
+    // node3->_left = node5;
+    // node3->_right = node6;
 
     return node1;
 }
@@ -36,4 +36,11 @@ int main()
         printf("%c\n", c->_data);
     else
         printf("没找到\n");
+
+    tree.LevelOrder();
+    if (tree.TreeIsComplete())
+        std::cout << "1" << std::endl;
+    else
+        std::cout << "0" << std::endl;
+    return 0;
 }
